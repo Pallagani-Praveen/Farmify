@@ -1,0 +1,50 @@
+
+#sidenav{
+    width:200px;
+    height: 90.5vh;
+    border-top: 2px solid #eeeeee;
+    z-index: 2;
+    position: absolute;
+}
+
+#sidenav ul{
+    margin-top: 20px;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color:white;
+    font-weight: bold;
+    font-size: 18px;
+    overflow: hidden;
+    margin-left: -40px;
+}
+
+#sidenav ul li{
+ position: relative;
+ margin: 3px;
+ text-align: center;
+ padding:10px;
+ text-decoration: none;
+color:white;
+border-radius: 6px;
+} 
+
+#sidenav ul li a{
+    text-decoration: none;
+    color: white;
+}
+
+
+#sidenav ul li:hover{
+    background-color: #aaaaaa;
+    
+}
+
+
+
+@media only screen and (max-width: 900px) {
+    #sidenav{
+        width: 0vh;
+    }
+}

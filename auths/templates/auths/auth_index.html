@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+  Auth Index
+{% endblock title %}
+
+{% block csslink %}
+   <link rel="stylesheet" href="{% static 'css/auth_index.css'%}">
+{% endblock csslink %}
+
+{% block body %}
+  <h3>Users</h3>
+  <input type="button" value="signup" onclick="location.href='signup'"/>
+  <input type="button" value="login" onclick="location.href='login'"/>
+  <input type="button" value="home" onclick="location.href='/'"/>
+  {% for user in users %}
+    <div class='userblock'>
+        <div class="heading">
+            Email : <b>{{user.email}}</b>
+        </div>
+        <hr style="color: white;">
+        {% if user.first_name and user.second_name %}
+            <p>UserName : {{user.get_full_name}}</p>
+        {% endif %}
+
+        {% if user.first_name %}
+            <p>FirstName : {{user.get_short_name}}</p>
+        {% endif %}
+
+        {% if user.avatar %}
+            <img src="/media/{{user.avatar}}"/>
+        {% endif %}
+            
+            
+    </div>
+  {% endfor %}
+{% endblock body %}

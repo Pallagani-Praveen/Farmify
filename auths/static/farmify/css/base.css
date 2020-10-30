@@ -1,0 +1,18 @@
+#m-div{
+    position: absolute; 
+    top:56px;
+    left:200px;
+    overflow-y: scroll;
+    max-width: 177vh;
+    max-height: 90.5vh;
+    background-color: #dddddd;
+    box-sizing:border-box;
+}
+
+@media only screen and (max-width:900px){
+    #m-div{
+        /* left: 0; */
+        position: relative;
+    }
+}
+

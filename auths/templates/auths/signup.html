@@ -1,0 +1,47 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  SignUp
+{% endblock title %}
+
+
+{% block csslink %}
+  <link rel="stylesheet" href="{% static 'css/signup.css'%}">
+  
+  
+{% endblock csslink %}
+
+{% block body %}
+
+<div id="outer-box" class="text-light border rounded bg-secondary border-light">
+    <h3 style="margin: 3px auto;" >SignUP Here . . . . .</h3>
+    <hr  class='bg-light'>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+            {% for field in form %}
+                <tr>
+                    <td>{{field.label}}</td>
+                    <td> : </td>
+                    <td>{{field}}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td></td>
+                <td></td>
+                 <td>
+                  <input type="submit" value="Submit" class="btn btn-primary px-2 py-1 m-2" />
+                   <input type="button" value="Login" class="btn btn-success px-2 py-1 m-2" onclick="location.href='/auth/login'"/>
+                  </td>
+               </tr>
+        </table>
+        
+    </form>
+</div>
+
+{% endblock body %}
+    
+
+    
