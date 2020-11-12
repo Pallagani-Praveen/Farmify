@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load tags %}
+
+
+{% load static %}
+
+{% block title %}
+  {{cropname|upper}} Evalution
+{% endblock title %}
+
+{% block css %}
+    .cm-div{
+      width:174vh;
+      height:100vh;
+    }
+{% endblock css %}
+  .cm-div{
+    width:170vh;
+    height:100vh;
+  }
+{% block body %}
+  <div class="cm-div mt-3">
+    <div class="d-flex">
+        <div class="col-md-8">
+          <h4 class="text-info">{{cropname|upper}} Insights</h4>
+          <hr>
+          <ul class="list-group col-md-12">
+            <li class="list-group-item">CropName : {{crop.cropname}}</li>
+            <li class="list-group-item">Farmer Contact : {{crop.phone}}</li>
+            <li class="list-group-item">Farmer Area : {{crop.area}}, {{crop.pincode}}</li>
+            <li class="list-group-item">Size : {{crop.size}} {{crop.metric}}</li>
+            <li class="list-group-item bg-{{color}} text-light">Price : {{crop.price}} /-, Price Per {{crop.metric}} : {% widthratio crop.price crop.size 1 %}/- [  suggestion : {{sugg}}  ]</li>
+            <li class="list-group-item">Avg Market Price Per {{crop.metric|upper}} : {{mu}} /-</li>
+            <li class="list-group-item">Variation Over Market : {{sd}} /-</li>
+            <li class="list-group-item">Expected Price : {% widthratio crop.size 1 mu %} /-</li>
+
+          </ul>
+
+            <a class="btn btn-primary my-2" data-toggle="collapse" href="#priceexpert" role="button" aria-expanded="false" aria-controls="collapseExample">
+              Expert Suggestion
+            </a>
+            <div class="collapse" id="priceexpert">
+              <div class="card card-body">
+                <li class="list-group-item bg-success text-light">
+                  Go : Price Range [ {% widthratio mu|sub:sd 1 crop.size %} /-, {% widthratio mu|add:sd 1 crop.size %} /- ]
+                </li>
+                <hr>
+                <li class="list-group-item bg-primary text-light">
+                  Think : Price Range [ {% widthratio sd|mul:2|sub:mu|abs 1 crop.size %} /-, {% widthratio sd|mul:2|add:mu 1 crop.size %} /- ]
+                </li>
+                <hr>
+                <li class="list-group-item bg-danger text-light">
+                  No : Price Range [ {% widthratio sd|mul:3|sub:mu|abs 1 crop.size %} /-, {% widthratio sd|mul:3|add:mu 1 crop.size %} /- ]
+                </li>
+              </div>
+            </div>
+
+        </div>
+        <div id="googleMap" style="height:400px;" class='col-md-4'>
+        </div>
+    </div>
+   <hr>
+    
+  </div>
+{% endblock body %}
+
+
+
+
+{% block jslink %}
+  
+<script>
+         
+  {% comment %}
+      function getLatLngByZipcode(zipcode)  
+      {
+          var geocoder = new google.maps.Geocoder();
+          var address = zipcode;
+          geocoder.geocode({ 'address': 'zipcode '+address }, function (results, status) {
+              if (status == google.maps.GeocoderStatus.OK) {
+                  var latitude = results[0].geometry.location.lat();
+                  var longitude = results[0].geometry.location.lng();
+                  alert("Latitude: " + latitude + "\nLongitude: " + longitude);
+              } else {
+                  alert(status);
+              }
+          });
+          return [latitude, longitude];
+      } 
+  {% endcomment %}
+
+  
+  function myMap() {
+
+    const latlong = [{{lat}},{{long}}];
+
+  var myLatlng = new google.maps.LatLng(latlong[0],latlong[1]);
+  var mapProp= {
+    center:myLatlng,
+    zoom:5,
+  };
+  var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+  var marker = new google.maps.Marker({
+      position: myLatlng,
+      title:'{{area}}'
+  });
+
+  // To add the marker to the map, call setMap();
+  marker.setMap(map);
+  }
+  </script>
+  
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnjJAmLpYoN7pxV7sgQai9yo47YKKmElE&callback=myMap"></script>
+
+
+
+{% endblock jslink %}

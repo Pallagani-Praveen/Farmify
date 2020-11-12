@@ -1,6 +1,11 @@
  body{
      background-color: white;
+     overflow-y: hidden;
+     box-sizing: border-box;
  }
+
+ 
+
  #outer-box{
      max-width: 680px;
      margin: 20px auto;

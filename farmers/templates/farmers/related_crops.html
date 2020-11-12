@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {{cropname}} Offers
+{% endblock title %}
+
+{% block css %}
+  .cm-div{
+      width:173vh;
+  }
+{% endblock css %}
+
+
+{% block body %}
+  <div class="cm-div mx-5 my-3">
+    <h4 class="text-info">Our {{cropname}} Statistic's</h4>
+    <div class="upper row">
+    <div class="one">
+        {% for user_crop  in user_crops %}
+          <ul class="list-group">
+              <li class="list-group-item active">{{request.user.email}}</li>
+              <li class="list-group-item">Crop Size : {{user_crop.size}} {{user_crop.metric}}</li>
+              <li class="list-group-item">Price : {{user_crop.price}} /-</li>
+              <li class="list-group-item">Price/{{user_crop.metric}} : {% widthratio user_crop.price user_crop.size 1 %} /-</li>
+          </ul>
+        {% endfor %}
+    </div>
+    <div class="two ml-5">
+      <div id="chart_div"></div>
+    </div>
+  </div>
+    
+      <hr>  
+
+    <h4 class="text-info">Related {{cropname|upper}} Statistic's</h4>
+    {% for crop in related_crops %}
+    <ul class="list-group col-md-8">
+        <li class="list-group-item active d-flex justify-content-between">
+          <span>
+            Framer : {{crop.user}}
+          </span>
+          <span class="text-light">
+            {{crop.timestamp}}
+          </span>
+        </li>
+        <li class="list-group-item">Region : {{crop.area}}, {{crop.pincode}}</li>
+        <li class="list-group-item">Size : {{crop.size}} {{crop.metric}}</li>
+        <li class="list-group-item">Price : {{crop.price}} /-</li>
+        <li class="list-group-item">Price/{{crop.metric}} : {% widthratio crop.price crop.size 1 %} /-</li>
+      </ul>
+    {% endfor %}
+  </div>
+{% endblock body %}
+
+
+{% block jslink %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+{% endblock jslink %}
+
+{% block js %}
+
+google.charts.load('current', {'packages':['corechart']});
+
+
+google.charts.setOnLoadCallback(drawChart);
+
+
+function drawChart() {
+
+ 
+  var data = new google.visualization.DataTable();
+  data.addColumn('string', 'Topping');
+  data.addColumn('number', 'Price/Unit');
+  var list = [];
+  {% for crop in user_crops %}
+      list.push(['you',{% widthratio crop.price crop.size 1 %}]);
+  {% endfor %}
+
+  {% for cp in related_crops %}
+      list.push(['{{cp.user}}',{% widthratio cp.price cp.size 1 %}]);
+  {% endfor %}
+  console.log(list);
+  data.addRows(list);
+
+  
+  var options = {'title':'Your Price VS Other"s Prices',
+                 'width':400,
+                 'height':'auto'};
+
+  // Instantiate and draw our chart, passing in some options.
+  var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+  chart.draw(data, options);
+}
+{% endblock js %}

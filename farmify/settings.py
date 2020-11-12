@@ -12,9 +12,14 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+from django.contrib.messages import constants as messages
+import pymongo
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+STATIC_ROOT = BASE_DIR
 
 
 # Quick-start development settings - unsuitable for production
@@ -40,7 +45,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # apps
-    'auths'
+    'auths',
+    'farmers',
+    'dealers',
+    'news'
 ]
 
 MIDDLEWARE = [
@@ -128,3 +136,22 @@ AUTH_USER_MODEL = 'auths.User'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
+
+
+MESSAGE_TAGS = {
+    messages.INFO:'info',
+    messages.WARNING:'warning',
+    messages.SUCCESS:'success',
+    messages.ERROR:'danger',
+}
+
+
+
+# cd9774bdb78d482f8161739f5166e804 (News API Key)
+# http://newsapi.org/v2/top-headlines?country=in&apiKey=cd9774bdb78d482f8161739f5166e804
+
+# MONGOCLI = pymongo.MongoClient("mongodb+srv://praveen:praveen@framifycluster.hromh.mongodb.net/Farmify?retryWrites=true&w=majority")
+
+# GOOGLE MAP API : AIzaSyBnjJAmLpYoN7pxV7sgQai9yo47YKKmElE
+
+# mcukukq493wwmcbjdec78v4ey8fpdm5y (pin to lat long) mapmyindia

@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render,HttpResponse
 from auths.forms import UserCreationFrom,UserLoginForm
 from auths.models import User
 from django.contrib.auth import authenticate,login,logout
+from django.contrib import messages
 
 # Create your views here.
 
@@ -30,13 +31,16 @@ def auths_signup(request):
             user.set_password(password)
             user.save()
             return redirect('/auth/')
+        else:
+            messages.warning(request,'Invalid Input To The Form')
     context = {'form':form}
     return render(request,'auths/signup.html',context=context)
 
 def auths_login(request):
     if request.user.is_authenticated:
         return redirect('/')
-
+    next = request.GET.get('next')
+    
     form = UserLoginForm()
     if request.method=='POST':
         form = UserLoginForm(request.POST)
@@ -44,12 +48,23 @@ def auths_login(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             role = form.cleaned_data['role']
-            user = authenticate(email=email,password=password,role=role)
-            if user:
-                login(request,user)
-                return redirect('landing_page')
+            next = request.POST['next']
+            if User.objects.filter(email=email).count() == 1:
+                if User.objects.get(email=email).role != role:
+                    messages.error(request,'Invalid Role Given')
+                    return redirect('/auth/login')
+                user = authenticate(email=email,password=password,role=role)
+                if user:
+                    login(request,user)
+                    if next!='None':
+                        return redirect(next)
+                    return redirect('landing_page')
+            else:
+                messages.error(request,'Invalid Email/Password')
+        else:
+            messages.warning(request,'Invalid User Infomation')
 
-    context = {'form':form}
+    context = {'form':form,'next':next}
     return render(request,'auths/login.html',context=context)
 
 

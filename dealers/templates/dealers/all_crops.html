@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+  All Crops
+{% endblock title %}
+
+{% block css %}
+  .cm-div{
+      width:174vh;
+      height:100vh;
+  }
+{% endblock css %}
+
+{% block body %}
+  <div class="cm-div">
+    <div class="ml-4 mt-3">
+        <h4 class="ml-2">All Available Deals</h4>
+    <div class="accordion" id="accordionExample">
+        {% for crop in crops %}
+       
+
+            <div class="card m-2 rounded">
+              <div class="card-header" id="heading{{forloop.counter}}">
+                <h2 class="mb-0 d-flex justify-content-between">
+                    
+                  <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{forloop.counter}}" aria-expanded="true" aria-controls="collapse{{forloop.counter}}">
+                    <i class="fa fa-leaf mr-2 border rounded-circle p-2 border-primary" aria-hidden="true"></i>{{crop.cropname}} Sale &nbsp;&nbsp;  <small class="text-dark">#{{crop.user}}</small>
+                  </button>
+                  <div>
+                      <span class="" style="font-size: 13px;">{{crop.timestamp}}</span>
+                      <button class="btn btn-primary" onclick="location.href='/dealers/crop_eval?crop_id={{crop.id}}'">See Suggestion</button>
+                  </div>
+                </h2>
+              </div>
+          
+              <div id="collapse{{forloop.counter}}" class="collapse show" aria-labelledby="heading{{forloop.counter}}" data-parent="#accordionExample">
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item active">Area : {{crop.area}},{{crop.pincode}}</li>
+                        <li class="list-group-item">Size : {{crop.size}} {{crop.metric}}</li>
+                        <li class="list-group-item">Price : {{crop.price}} /-</li>
+                      </ul>
+                </div>
+              </div>
+            </div>
+            
+        {% endfor %}
+    </div>
+    </div>
+  </div>
+{% endblock body %}

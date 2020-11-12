@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  Add Crop
+{% endblock title %}
+
+{% block css %}
+    .cm-div{
+        width:174vh;
+        height:90.5vh;
+    }
+
+    @media only screen and max-width(900px){
+        .m-div{
+            position:relative;
+            width:100%;
+            height:100%;
+        }
+    }
+{% endblock css %}
+
+{% block jslink %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="{% static 'js/villages.js' %}"></script>
+{% endblock jslink %}
+
+{% block body %}
+  <div class="cm-div d-flex p-5 justify-content-center">
+    <form class="border border-success py-4 px-5 w-100 rounded mr-1" method="POST">
+        <div class="inner d-flex justify-content-around">
+            {% csrf_token %}
+            <div class="one">
+                <div class="form-group">
+                <label for="CropName" class="text-info">Crop Name*</label>
+                <input type="text" class="form-control" id="cropname" name='cropname'  placeholder="Enter Crop Name" required="true">
+                
+                </div>
+                <div class="form-group">
+                    <label for="size">Commodity Size*</label>
+                    <div class="d-flex">
+                        <input type="number" class="form-control" name="size" placeholder="Enter Size" required='true'>
+                        <select name="metric" id="metric" class="form-control" required='true'>
+                            <option value="kgs">KGS</option>
+                            <option value="tones">TONES</option>
+                            <option value="liters">LITERS</option>
+                            <option value="meters">METERS</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                <label for="price">Price*</label>
+                    <input type="input" class="form-control" name="price" placeholder="Enter Your Price" required='true'>
+                </div>
+            </div>
+            
+            <div class="one">
+                <div class="form-group">
+                    <label for="CropName" class="text-info">State*</label>
+                    <select name="state" id="state" class="form-control" required='true'>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                        <option value="Assam">Assam</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="Chandigarh">Chandigarh</option>
+                        <option value="Chhattisgarh">Chhattisgarh</option>
+                        <option value="Dadra and Nagar Haveli">	Dadra and Nagar Haveli</option>
+                        <option value="Daman and Diu">Daman and Diu</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Goa">Goa</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="Haryana">Haryana</option>
+                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                        <option value="Jharkhand">Jharkhand</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Kerala">Kerala</option>
+                        <option value="Ladakh">Ladakh</option>
+                        <option value="Lakshadweep">Lakshadweep</option>
+                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Manipur">Manipur</option>
+                        <option value="Meghalaya">Meghalaya</option>
+                        <option value="Mizoram">Mizoram</option>
+                        <option value="Nagaland">Nagaland</option>
+                        <option value=Odishah">Odisha</option>
+                        <option value="Puducherry">Puducherry</option>
+                        <option value="Punjab">Punjab</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                        <option value="Sikkim">Sikkim</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Telangana">Telangana</option>
+                        <option value="Tripura">Tripura</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="Uttarakhand">Uttarakhand</option>
+                        <option value="West Bengal">West Bengal</option>
+
+
+                    </select>
+                
+                </div>
+                <div class="form-group">
+                    <label for="pincode">PinCode*</label>
+                    <input type="text" name="pincode" id="pincode" pattern="[0-9]{6}" maxlength="6" class="form-control" required='true'>
+                </div>
+                <div class="form-group">
+                    <label for="area">Area*</label>
+                    <select name="area" id="area" class="form-control" required='true'>
+                        <option value="none">--None--</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone/Contact Number*</label>
+                    <input type="tel" class="form-control" name="phone" placeholder="Enter Contact Number" required='true'>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        <div>
+       
+      </form>
+
+      
+  </div>
+{% endblock body %}
+
+<!-- http://www.postalpincode.in/api/pincode/521211 -->

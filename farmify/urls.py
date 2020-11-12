@@ -23,6 +23,9 @@ urlpatterns = [
     # other app urls
     path('admin/', admin.site.urls),
     path('auth/',include('auths.urls')),
+    path('farmers/',include('farmers.urls')),
+    path('dealers/',include('dealers.urls')),
+    path('news/',include('news.urls')),
     
     # this app urls
     path('',v.landing_view,name="landing_page"),

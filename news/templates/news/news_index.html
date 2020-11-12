@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  Latest News India
+{% endblock title %}
+
+{% block css %}
+  .cm-div{
+    width:174vh;
+    height:100vh;
+  }
+{% endblock css %}
+
+{% block body %}
+  <div class="cm-div">
+    <div class="news m-5">
+      <h4 class="text-info">Today's News Feed</h4>
+      {% for nws in news %}
+      <div class="card my-2 w-100" style="width: 18rem;">
+        <div class="card-body">
+          <div class="card-title bg-info py-1 px-3 rounded d-flex justify-content-between">
+            <div class="text-light">
+              {{nws.title}}
+            </div>
+            <div class="text-light lead">
+              provided By : {{nws.name}}
+            </div>
+          </div>
+            <div class="d-flex">
+                  <div class="sub-body">
+                    <h6 class="card-subtitle mb-2 text-muted">
+                      <span class="text-primary"> Description : </span>{{nws.description}}
+                    </h6>
+                    <p class="card-text">
+                      <span class="text-primary">Content : </span>{{nws.content}}
+                    </p>
+                    <a href="{{nws.url}}" class="card-link btn btn-primary">Read More</a>
+                    <span>Published On : {{nws.publishedAt}}</span>
+                  </div>
+                  <div class="img">
+                      <img src="{{nws.urlToImage}}" alt="" style="width: 300px;height:200px;">
+                  </div>
+            </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock body %}
