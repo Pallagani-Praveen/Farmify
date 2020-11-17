@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load tags %}
+
+{% block title %}
+  ALL DEALS
+{% endblock title %}
+
+{% block css %}
+  .cm-div{
+      width:174vh;
+      height:100vh;
+  }
+{% endblock css %}
+
+{% block body %}
+{% csrf_token %}
+    <div class="cm-div">
+        <h4 class="m-4 text-info text-center">All Deals</h4>
+        <hr style="width: 75vh;">
+        <div class="container my-4 mx-1 d-flex justify-content-around flex-wrap">
+            {% for deal in deals %}
+                <div class="card my-2" style="width: 18rem;">
+                    <img class="card-img-top" src="/media/{{deal.img}}" alt="Card image cap">
+                    <div class="card-body">
+                    <h5 class="card-title">{{deal.cropname|upper}} Deal  <small class="text-info" style="cursor: pointer;" role="button" onclick="location.href='/dealers/profile/{{deal.user|strip_user}}'">#{{deal.user}}</small></h5>
+                    <p class="card-text">Scale Required : {{deal.start_size}} - {{deal.end_size}} {{deal.metric}}</p>
+                    <small>{{deal.timestamp}}</small>
+                    <a href="/dealers/deal_details?deal_id={{deal.id}}" class="btn btn-primary p-1">See Complete</a>
+                    
+                    {% if deal.status == 'request' %}
+                    <a href="#" id="request-btn" role="button" class="btn btn-danger p-1" onclick="callFunc('{{deal.user}}','{{deal.id}}');">Request  <i class="fa fa-arrow-right"></i>  </a>
+
+                    {% elif deal.status == 'waiting' %}
+                    <a href="#" role="button" class="btn btn-success p-1 disabled">Requested <i class="fa fa-check-circle"></i>  </a>
+
+                    {% elif deal.status == 'accepted' %}
+                    <a href="#" role="button" class="btn btn-success p-1">Accepted <i class="fa fa-smile-o"></i>  </a>
+
+                    {% elif deal.status == 'rejected' %}
+                    <a href="#" role="button" class="btn btn-danger p-1">Rejected <i class="fa fa-frown-o"></i>  </a>
+                    {% endif %}
+                        
+                    
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock body %}
+
+
+{% block jslink %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% endblock jslink %}
+
+
+{% block js %}
+  function callFunc(dealer,deal_id){
+      var req_btn = $('#request-btn');
+      var html = 'Requested <i class="fa fa-check-circle"></i>';
+    $.post( "http://127.0.0.1:8000/farmers/request_dealer_deal", { 'csrfmiddlewaretoken' : $("input[name='csrfmiddlewaretoken']").val(), 'farmer': '{{request.user.email}}','dealer': dealer,'deal_id':deal_id })
+        .done(function( data ) {
+            if(data==='success'){
+                req_btn.removeClass('btn-danger');
+                req_btn.html(html);
+                req_btn.addClass('btn-success');
+                req_btn.addClass('disabled');
+            }
+            else{
+                alert('Unable to make request, Please Check Your Connection');
+            }
+        });
+}
+{% endblock js %}
+
+
+
+    

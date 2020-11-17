@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+{%  include "includes/nav.html"  %}
+
+{% block title %}
+  Farmer Index Page
+{% endblock title %}
+
+
+
+{% block css %}
+    .cm-div{
+        width:174vh;
+        height:100vh;
+    }
+{% endblock css %}
+
+
+{% block body %}
+
+
+
+<div class="cm-div">
+    
+    {% if request.user.role == 'dealer' %}
+        <div class="card mx-5 my-3" style="width: 15rem;">
+            <div class="card-body text-center">
+            <h5 class="card-title text-success">Add Deal</h5>
+            <p class="card-text px-4 py-3  btn btn-info rounded-circle" role="button" onclick="location.href='add_deal'">
+                <i class="fa fa-plus" style="font-size:20px;"></i>
+            </p> 
+            </div>
+        </div>
+        <hr>
+    {% endif %}
+        
+    
+
+    <div class="list_of_crops m-5">
+        <h4 class="text-info m-2">List Of Your Deals</h4>
+        <div class="accordion" id="accordionExample">
+            {% for deal in deals %}
+                <div class="card m-2 rounded">
+                  <div class="card-header d-flex justify-content-between" id="heading{{forloop.counter}}">
+                      <h2 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{forloop.counter}}" aria-expanded="true" aria-controls="collapseOne">
+                          {{deal.cropname|upper}} Crop Details 
+                          <span class="timestamp ml-4 rounded p-2 bg-secondary text-light">
+                            {{deal.timestamp}}
+                          </span>
+                        </button>
+                      </h2>
+                    
+                    <div class="d-flex">
+                      
+                        <h2 class="mb-0" >
+                            <button class="btn btn-primary" type="button" role="btn" onclick="location.href='/dealers/deal_details?deal_id={{deal.id}}'">
+                            See Offers
+                            </button>
+                        </h2>
+
+                        <h2 class="mb-0 ml-2">
+                            <button class="btn btn-danger" type="button" role="btn">
+                            <i class="fa fa-trash"></i>
+                            </button>
+                        </h2>
+                    </div>
+
+                  </div>
+              
+                  <div id="collapse{{forloop.counter}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <div class="list-group">
+                            <button type="button" class="list-group-item list-group-item-action active">
+                              My {{deal.cropname|upper}} Deal <small class="float-right p-1 bg-dark rounded">
+                                <a href="#" class="text-light">
+                                Ready Farmers : {{deal.readyfarmers}}
+                              </a></small>
+                            </button>
+                            <button type="button" class="list-group-item list-group-item-action">Quantity Size Range : {{deal.start_size}} - {{deal.end_size}} {{deal.metric}}</button>
+                            <button type="button" class="list-group-item list-group-item-action">Price : {{deal.price}} /-</button>
+                            <button type="button" class="list-group-item list-group-item-action">Area : {{deal.area}}</button>
+                          </div>
+                    </div>
+                  </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+
+</div>
+
+{% endblock body %}
+

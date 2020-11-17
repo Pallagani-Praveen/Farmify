@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% load tags %}
+
+{% block title %}
+    DEAL DETAILS
+{% endblock title %} 
+
+{% block css %}
+  .cm-div{
+      width:174vh;
+      height:100vh;
+      position:relative;
+  }
+  .side-mini{
+      width:50vh;
+      float:right;
+  }
+{% endblock css %}
+
+{% block body %}
+    
+    <div class="cm-div d-flex">
+        <div class="conetnt col-md-8 mt-2">
+            <h4 class="text-center">All Deal Details</h4>
+            <ul class="list-group">
+                <li class="list-group-item active">I want to buy {{deal.cropname|upper}}  <a href="#"><small class="float-right text-light">#{{deal.user}} <span class="bg-dark py-1 px-2 rounded">{{deal.deal_status|cap_the_first}}</span></small></a></li>
+                <li class="list-group-item">Size : ( {{deal.start_size}} - {{deal.end_size}} ) {{deal.metric}} /-</li>
+                <li class="list-group-item">Price : {{deal.price}} /-</li>
+                <li class="list-group-item">Contact : {{deal.phone}}</li>
+                <li class="list-group-item">Address : {{deal.area}} , {{deal.pincode}} - {{deal.state}} .</li>
+              </ul>
+              <div class="stats mt-3">
+                    <h4>
+                        Statistic's About This Deal
+                        <span class="float-right">
+                            
+                            {% if deal_price_range.start <= mu <= deal_price_range.end %}
+                                <i class="fa fa-check-circle text-success m-2 p-1">&nbsp;Okay</i>
+                            {% else %}
+                                <i class="fa fa-close text-danger m-2 p-1">&nbsp;Think To Sell</i>
+                            {% endif %}
+                                
+                        </span>
+                    </h4>
+                    <hr>
+                    <ul class="list-group">
+                        <li class="list-group-item">Deal Price/{{deal.metric}} : ( {{deal_price_range.start}} , {{deal_price_range.end}} ) /- </li>
+                        <li class="list-group-item">Avg Price in market : {{mu}} /-</li>
+                        <li class="list-group-item">Variation Over market : {{sd|floatformat:3}} /-</li>
+                        <li class="list-group-item">Best Price Range : ( {{mu|sub:sd|floatformat:3}} , {{mu|add:sd}} )</li>
+                    </ul>
+              </div>
+        </div>
+        <div class="side-mini border rounded m-4 border-dark">
+            <h5 class="px-2 pt-2 pb-0">Requested Farmers <small class="border border-dark rounded bg-dark text-light px-2 py-1">{{farmers|length}}</small></h5>
+            <hr>
+            <ol>
+                {% for farmer in farmers %}
+                    <li><small>
+                        {{farmer.farmer}}
+                        
+                        {% if farmer.farmer == request.user.email %}
+                            (you)
+                        {% endif %}
+                    </small>
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+{% endblock body %}
+    

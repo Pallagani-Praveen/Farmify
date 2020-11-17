@@ -18,3 +18,16 @@ def divide(value,arg):
 def divide(value):
     return abs(value)
 
+@register.filter(name='strip_user')
+def strip_user(email):
+    return email[:email.index('@')]
+
+@register.filter(name='cap_the_first')
+def cap_the_first(strg):
+    return strg.capitalize()
+
+@register.filter(name='count')
+def count(arr):
+    return len(arr)
+
+
